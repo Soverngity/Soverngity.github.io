@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ROS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ROS核心概念建议每次运行新程序之前都要运行roscore，因为ROS Master参数服务器存储的参数可能会冲突产生问题。 节点 话题通信多对多的关系：针对同一个话题，可能有多个发布者和订阅者，如果有多个发布者可能会出现数据错乱 发布者和订阅者均具备缓冲区（因为可能发布者速度快，可能订阅者速度快）  服务通信一对多的关系   参数在ROS Master中存在有一个参数服务器，参数类型（int、f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS入门">
+<meta property="og:url" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Clamber">
+<meta property="og:description" content="ROS核心概念建议每次运行新程序之前都要运行roscore，因为ROS Master参数服务器存储的参数可能会冲突产生问题。 节点 话题通信多对多的关系：针对同一个话题，可能有多个发布者和订阅者，如果有多个发布者可能会出现数据错乱 发布者和订阅者均具备缓冲区（因为可能发布者速度快，可能订阅者速度快）  服务通信一对多的关系   参数在ROS Master中存在有一个参数服务器，参数类型（int、f">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118094857186.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117142229766.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117141802032.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117142103385.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117142525315.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117142925265.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117145023215.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117151420689.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117151824677.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117152147293.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117153811974.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117154628516.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117155717894.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117155002638.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117191511654.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117191608917.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117191644257.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117192653050.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117192904126.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117194856111.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117194821806.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117194930799.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117200259691.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117200424924.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117202343368.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117202546391.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117203411595.png">
+<meta property="og:image" content="f:/毕设/ROS/ROS入门.assets/image-20201117204035931.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118093026160.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118092533798.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118093858683.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118094102792.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118094537609.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118095211812.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118101352550.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118101303710.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118101904727.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118103240016.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118101958400.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118103514340.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118103428222.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118110550046.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118111301079.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118112103664.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118112130620.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118111514643.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118112820101.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118113033092.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118203639530.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118204114049.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118204652180.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118205551392.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118210657089.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118211255103.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118211540900.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118212324860.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118212910212.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118213800802.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118214204460.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118214320579.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118215132790.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118215240499.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118215644032.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201120193657338.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118220023521.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118220337358.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118220354453.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118220444315.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118220703600.png">
+<meta property="og:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118220734743.png">
+<meta property="article:published_time" content="2020-11-28T07:51:00.230Z">
+<meta property="article:modified_time" content="2020-11-28T07:53:54.505Z">
+<meta property="article:author" content="Chen XXX">
+<meta property="article:tag" content="ROS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/ROS%E5%85%A5%E9%97%A8.assets/image-20201118094857186.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/11/28/ROS入门/"/>
+
+
+
+
+
+  <title>ROS入门 | Clamber</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<link rel="stylesheet" href="/dist/APlayer.min.css">
+<div id="aplayer"></div>
+<script type="text/javascript" src="/dist/APlayer.min.js"></script>
+<script type="text/javascript" src="/dist/music.js"></script>
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Clamber</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">山高不厌攀,水深不厌潜,学精不厌苦!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/28/ROS%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/155106.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Clamber">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ROS入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-28T15:51:00+08:00">
+                2020-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ROS/" itemprop="url" rel="index">
+                    <span itemprop="name">ROS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/11/28/ROS%E5%85%A5%E9%97%A8/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/11/28/ROS%E5%85%A5%E9%97%A8/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ROS核心概念"><a href="#ROS核心概念" class="headerlink" title="ROS核心概念"></a>ROS核心概念</h1><p><strong>建议每次运行新程序之前都要运行roscore，因为ROS Master参数服务器存储的参数可能会冲突产生问题。</strong></p>
+<h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118094857186.png" alt="image-20201118094857186"></p>
+<h2 id="话题通信"><a href="#话题通信" class="headerlink" title="话题通信"></a>话题通信</h2><p>多对多的关系：针对同一个话题，可能有多个发布者和订阅者，如果有多个发布者可能会出现数据错乱</p>
+<p>发布者和订阅者均具备缓冲区（因为可能发布者速度快，可能订阅者速度快）</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117142229766.png" alt="image-20201117142229766"></p>
+<h2 id="服务通信"><a href="#服务通信" class="headerlink" title="服务通信"></a>服务通信</h2><p>一对多的关系</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117141802032.png" alt="image-20201117141802032"></p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117142103385.png" alt="image-20201117142103385"></p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>在ROS Master中存在有一个参数服务器，参数类型（int、float、string等），机制为RPC通信</p>
+<p>适合静态配置参数，同样ROS中也存在动态配置参数的功能</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117142525315.png" alt="image-20201117142525315"></p>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117142925265.png" alt="image-20201117142925265"></p>
+<h1 id="ROS命令行基本操作"><a href="#ROS命令行基本操作" class="headerlink" title="ROS命令行基本操作"></a>ROS命令行基本操作</h1><p><strong>roscore</strong> ：启动ROS Master</p>
+<p><strong>rosrun turtlesim turtlesim_node</strong> ：启动turtlesim软件包中的turtle节点（仿真）</p>
+<p><strong>rosrun turtlesim turtle_teleop_key</strong>：启动turtlesim软件包中的turtle_teleop_key节点（键盘控制）</p>
+<p><strong>rqt_graph</strong> ：用于显示系统计算图（ROS本质为一张计算图）</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117145023215.png" alt="image-20201117145023215"></p>
+<p><strong>rosnode</strong>：显示系统所有节点信息</p>
+<blockquote>
+<p>rosnode is a command-line tool for printing information about ROS Nodes.</p>
+<p>Commands:<br>    rosnode ping    test connectivity to node<br>    rosnode list    list active nodes<br>    rosnode info    print information about node<br>    rosnode machine    list nodes running on a particular machine or list machines<br>    rosnode kill    kill a running node<br>    rosnode cleanup    purge registration information of unreachable nodes</p>
+<p>Type rosnode <command> -h for more detailed usage, e.g. ‘rosnode ping -h’</p>
+</blockquote>
+<p><strong>rostopic</strong>：与话题相关操作</p>
+<blockquote>
+<p>rostopic is a command-line tool for printing information about ROS Topics.</p>
+<p>Commands:<br>    rostopic bw    display bandwidth used by topic<br>    rostopic delay    display delay of topic from timestamp in header<br>    rostopic echo    print messages to screen<br>    rostopic find    find topics by type<br>    rostopic hz    display publishing rate of topic<br>    rostopic info    print information about active topic<br>    rostopic list    list active topics<br>    rostopic pub    publish data to topic<br>    rostopic type    print topic or field type</p>
+<p>Type rostopic <command> -h for more detailed usage, e.g. ‘rostopic echo -h’</p>
+</blockquote>
+<p>发布话题消息示例：</p>
+<p>rostopic pub -r 10(-r 设置10Hz) /turtle1/cmd_vel(话题名) geometry_msgs/Twist(消息结构) “linear:<br>  x: 1.0<br>  y: 0.0<br>  z: 0.0<br>angular:<br>  x: 0.0<br>  y: 0.0<br>  z: 0.0” (具体消息)</p>
+<p><strong>rosmsg show geometry_msgs/Twist：</strong>查看geometry_msgs/Twist的结构</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117151420689.png" alt="image-20201117151420689"></p>
+<p><strong>rosservice list</strong>：</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117151824677.png" alt="image-20201117151824677"></p>
+<p>发布服务请求，产生第二支海龟：</p>
+<p>rosservice call /spawn “x: 0.0<br>y: 0.0<br>theta: 0.0<br>name: ‘turtle2’” </p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117152147293.png" alt="image-20201117152147293"></p>
+<p>**rosbag record -a(all) -O(压缩包) cmd_record(压缩包名)**：话题记录（从运行此命令开始记录）</p>
+<p><strong>rosbag play cmd_record</strong>：话题复现</p>
+<h1 id="ROS创建工作空间和功能包"><a href="#ROS创建工作空间和功能包" class="headerlink" title="ROS创建工作空间和功能包"></a>ROS创建工作空间和功能包</h1><h2 id="创建工作环境"><a href="#创建工作环境" class="headerlink" title="创建工作环境"></a>创建工作环境</h2><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117153811974.png" alt="image-20201117153811974"></p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117154628516.png" alt="image-20201117154628516"></p>
+<p>catkin_make install 产生install文件夹</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117155717894.png" alt="image-20201117155717894"></p>
+<h2 id="创建功能包"><a href="#创建功能包" class="headerlink" title="创建功能包"></a>创建功能包</h2><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117155002638.png" alt="image-20201117155002638"></p>
+<h1 id="发布者、订阅者编程实现"><a href="#发布者、订阅者编程实现" class="headerlink" title="发布者、订阅者编程实现"></a>发布者、订阅者编程实现</h1><h2 id="使用Clion进行ROS开发"><a href="#使用Clion进行ROS开发" class="headerlink" title="使用Clion进行ROS开发"></a>使用Clion进行ROS开发</h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ndyj0829/article/details/82192675">https://blog.csdn.net/ndyj0829/article/details/82192675</a></p>
+<p>其中b步骤，b:进入/usr/share/applications中修改jetbrains-clion.desktop文件，在此路径下找不到，应该为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit ~&#x2F;.local&#x2F;share&#x2F;applications&#x2F;jetbrains-clion.desktop</span><br></pre></td></tr></table></figure>
+
+<h2 id="发布者Publisher编程实现"><a href="#发布者Publisher编程实现" class="headerlink" title="发布者Publisher编程实现"></a>发布者Publisher编程实现</h2><h3 id="代码编写"><a href="#代码编写" class="headerlink" title="代码编写"></a>代码编写</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117191511654.png" alt="image-20201117191511654"></p>
+<h3 id="修改CMakeLists-txt"><a href="#修改CMakeLists-txt" class="headerlink" title="修改CMakeLists.txt"></a>修改CMakeLists.txt</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117191608917.png" alt="image-20201117191608917"></p>
+<h3 id="编译并运行发布者"><a href="#编译并运行发布者" class="headerlink" title="编译并运行发布者"></a>编译并运行发布者</h3><p>编译之后，在catkin_ws/devel/lib下生成名为velocity_publisher的可执行文件</p>
+<p>下图source devel/setup.bash命令为设置终端可找到此功能包，因此可将此命令加入到~/.bashrc文件中，就不用再手动多次执行此命令，下两条rosrun命令分别启动功能包中的对应节点，配置完可直接启动。</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117191644257.png" alt="image-20201117191644257"></p>
+<h3 id="python实现发布者"><a href="#python实现发布者" class="headerlink" title="python实现发布者"></a>python实现发布者</h3><p>无需编译，右键py文件权限将Allow executing file as program打勾（允许作为程序执行文件），命令行直接./velocity_publisher.py即可。</p>
+<p><strong>如果通过rosrun执行呢？？？</strong><br>直接rosrun learning_topic velocity_publisher.py，rosrun learning_topic按两下table键即可看到。</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117192653050.png" alt="image-20201117192653050"></p>
+<h2 id="订阅者Subscribe编程实现"><a href="#订阅者Subscribe编程实现" class="headerlink" title="订阅者Subscribe编程实现"></a>订阅者Subscribe编程实现</h2><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117192904126.png" alt="image-20201117192904126"></p>
+<h3 id="代码编写-1"><a href="#代码编写-1" class="headerlink" title="代码编写"></a>代码编写</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117194856111.png" alt="image-20201117194856111"></p>
+<h3 id="修改CMakeLists-txt-1"><a href="#修改CMakeLists-txt-1" class="headerlink" title="修改CMakeLists.txt"></a>修改CMakeLists.txt</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117194821806.png" alt="image-20201117194821806"></p>
+<h3 id="编译并运行"><a href="#编译并运行" class="headerlink" title="编译并运行"></a>编译并运行</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117194930799.png" alt="image-20201117194930799"></p>
+<h2 id="话题消息的定义跟使用"><a href="#话题消息的定义跟使用" class="headerlink" title="话题消息的定义跟使用"></a>话题消息的定义跟使用</h2><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117200259691.png" alt="image-20201117200259691"></p>
+<h3 id="自定义话题消息"><a href="#自定义话题消息" class="headerlink" title="自定义话题消息"></a>自定义话题消息</h3><p>1、msg文件语言无关，编译时动态扩展</p>
+<p>2、  <build_depend>message_generation</build_depend>  //编译依赖，动态产生msg的依赖功能包<br>        <exec_depend>message_runtime</exec_depend>         //执行依赖，动态运行时依赖</p>
+<p><strong>3、在CMakeLists.txt添加编译选项</strong></p>
+<p>1）add_message_files(FILES Person.msg)                     //将Person.msg作为消息接口，针对其做编译<br>     generate_messages(DEPENDENCIES std_msgs)      //编译Person.msg依赖的ROS已有的库或包</p>
+<p>2）找到catkin_package，取消注释CATKIN_DEPENDS一行并加入message_runtime</p>
+<p>catkin_package(</p>
+<p>#INCLUDE_DIRS include</p>
+<p>#LIBRARIES learning_topic</p>
+<p>CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs turtlesim message_runtime</p>
+<p>#DEPENDS system_libmess</p>
+<p>)</p>
+<p>5、回到根目录，运行catkin_make进行编译</p>
+<p>6、进入到catkin_ws/devel/include/learning_topic文件夹下即可看到编译生成的Person.h</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117200424924.png" alt="image-20201117200424924"></p>
+<h3 id="创建发布者代码"><a href="#创建发布者代码" class="headerlink" title="创建发布者代码"></a>创建发布者代码</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117202343368.png" alt="image-20201117202343368"></p>
+<h3 id="创建订阅者代码"><a href="#创建订阅者代码" class="headerlink" title="创建订阅者代码"></a>创建订阅者代码</h3><p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117202546391.png" alt="image-20201117202546391"></p>
+<h3 id="修改CMakeLists-txt-2"><a href="#修改CMakeLists-txt-2" class="headerlink" title="修改CMakeLists.txt"></a>修改CMakeLists.txt</h3><p>add_executable(person_publisher src/person_publisher.cpp)<br>target_link_libraries(person_publisher ${catkin_LIBRARIES})<br>add_dependencies(person_publisher ${PROJECT_NAME}_generate_messages_cpp)    //用于跟自定义消息连接</p>
+<p>add_executable(person_subscriber src/person_subscriber.cpp)<br>target_link_libraries(person_subscriber ${catkin_LIBRARIES})<br>add_dependencies(person_subscriber ${PROJECT_NAME}_generate_messages_cpp)  //用于跟自定义消息连接</p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117203411595.png" alt="image-20201117203411595"></p>
+<h3 id="编译并运行发布者和订阅者"><a href="#编译并运行发布者和订阅者" class="headerlink" title="编译并运行发布者和订阅者"></a>编译并运行发布者和订阅者</h3><p><strong>此时如果将roscore终端关闭也即关闭ROS Master，结果是仍然正常通信，因为此时两者已经建立连接，但是访问服务器参数时有问题</strong></p>
+<p><img src="F:\毕设\ROS\ROS入门.assets\image-20201117204035931.png" alt="image-20201117204035931"></p>
+<h1 id="客户端、服务器编程实现"><a href="#客户端、服务器编程实现" class="headerlink" title="客户端、服务器编程实现"></a>客户端、服务器编程实现</h1><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118093026160.png" alt="image-20201118093026160"></p>
+<h2 id="客户端编程代码"><a href="#客户端编程代码" class="headerlink" title="客户端编程代码"></a>客户端编程代码</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118092533798.png" alt="image-20201118092533798"></p>
+<h3 id="代码编写-2"><a href="#代码编写-2" class="headerlink" title="代码编写"></a>代码编写</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118093858683.png" alt="image-20201118093858683"></p>
+<h3 id="修改CMakeLists-txt，配置编译规则"><a href="#修改CMakeLists-txt，配置编译规则" class="headerlink" title="修改CMakeLists.txt，配置编译规则"></a>修改CMakeLists.txt，配置编译规则</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118094102792.png" alt="image-20201118094102792"></p>
+<h3 id="编译并运行-1"><a href="#编译并运行-1" class="headerlink" title="编译并运行"></a>编译并运行</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118094537609.png" alt="image-20201118094537609"></p>
+<h2 id="服务端编程代码"><a href="#服务端编程代码" class="headerlink" title="服务端编程代码"></a>服务端编程代码</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118095211812.png" alt="image-20201118095211812"></p>
+<h3 id="代码编写-3"><a href="#代码编写-3" class="headerlink" title="代码编写"></a>代码编写</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118101352550.png" alt="image-20201118101352550"></p>
+<h3 id="编译并运行-2"><a href="#编译并运行-2" class="headerlink" title="编译并运行"></a>编译并运行</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118101303710.png" alt="image-20201118101303710"></p>
+<h2 id="服务数据的定义与使用"><a href="#服务数据的定义与使用" class="headerlink" title="服务数据的定义与使用"></a>服务数据的定义与使用</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118101904727.png" alt="image-20201118101904727"></p>
+<h3 id="自定义服务数据"><a href="#自定义服务数据" class="headerlink" title="自定义服务数据"></a>自定义服务数据</h3><p>1、srv文件语言无关。**—三个横线以上为request数据，以下为respond的数据。**</p>
+<p>2、  <build_depend>message_generation</build_depend>  //编译依赖，动态产生msg的依赖功能包<br>        <exec_depend>message_runtime</exec_depend>         //执行依赖，动态运行时依赖</p>
+<p><strong>3、在CMakeLists.txt添加编译选项</strong></p>
+<p>1）add_service_files(FILES Person.srv)                     //将Person.srv作为消息接口，针对其做编译<br>     generate_messages(DEPENDENCIES std_msgs)      //编译Person.srv依赖的ROS已有的库或包</p>
+<p>2）找到catkin_package，取消注释CATKIN_DEPENDS一行并加入message_runtime</p>
+<p>catkin_package(</p>
+<p>#INCLUDE_DIRS include</p>
+<p>#LIBRARIES learning_topic</p>
+<p>CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs turtlesim message_runtime</p>
+<p>#DEPENDS system_libmess</p>
+<p>)</p>
+<p>5、回到根目录，运行catkin_make进行编译</p>
+<p>6、进入到catkin_ws/devel/include/learning_topic文件夹下即可看到编译生成三个头文件分别为：<br>Person.h（一般只包含此文件即可，总的）、PersonRequest.h（请求）、PersonRespond.h（回应）</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118103240016.png" alt="image-20201118103240016"></p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118101958400.png" alt="image-20201118101958400"></p>
+<h3 id="创建客户端代码"><a href="#创建客户端代码" class="headerlink" title="创建客户端代码"></a>创建客户端代码</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118103514340.png" alt="image-20201118103514340"></p>
+<h3 id="创建服务端代码"><a href="#创建服务端代码" class="headerlink" title="创建服务端代码"></a>创建服务端代码</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118103428222.png" alt="image-20201118103428222"></p>
+<h3 id="修改CMakeLists-txt-3"><a href="#修改CMakeLists-txt-3" class="headerlink" title="修改CMakeLists.txt"></a>修改CMakeLists.txt</h3><p>add_executable(person_server src/person_server.cpp)<br>target_link_libraries(person_server ${catkin_LIBRARIES})<br>add_dependencies(person_server ${PROJECT_NAME}_gencpp)    //用于跟自定义消息连接</p>
+<p>add_executable(person_client src/person_client.cpp)<br>target_link_libraries(person_client ${catkin_LIBRARIES})<br>add_dependencies(person_client ${PROJECT_NAME}_gencpp)  //用于跟自定义消息连接</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118110550046.png" alt="image-20201118110550046"></p>
+<h1 id="参数的使用与编程方法"><a href="#参数的使用与编程方法" class="headerlink" title="参数的使用与编程方法"></a>参数的使用与编程方法</h1><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118111301079.png" alt="image-20201118111301079"></p>
+<h2 id="命令行使用"><a href="#命令行使用" class="headerlink" title="命令行使用"></a>命令行使用</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118112103664.png" alt="image-20201118112103664"></p>
+<p>设置颜色值不会马上更改，需要发送一个 rosservice call /clear “{}”  请求，会重新查询参数服务器，背景颜色更改</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118112130620.png" alt="image-20201118112130620"></p>
+<p>参数服务器加载YAML文件。</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118111514643.png" alt="image-20201118111514643"></p>
+<h2 id="编程实现"><a href="#编程实现" class="headerlink" title="编程实现"></a>编程实现</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118112820101.png" alt="image-20201118112820101"></p>
+<h2 id="修改CMakeLists-txt，配置编译规则-1"><a href="#修改CMakeLists-txt，配置编译规则-1" class="headerlink" title="修改CMakeLists.txt，配置编译规则"></a>修改CMakeLists.txt，配置编译规则</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118113033092.png" alt="image-20201118113033092"></p>
+<h1 id="坐标系管理系统（tf）"><a href="#坐标系管理系统（tf）" class="headerlink" title="坐标系管理系统（tf）"></a>坐标系管理系统（tf）</h1><h2 id="坐标变换"><a href="#坐标变换" class="headerlink" title="坐标变换"></a>坐标变换</h2><p>在后台维护<strong>tf tree</strong>，任意节点想要查询两节点之间的坐标转换关系直接查询tf tree</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118203639530.png" alt="image-20201118203639530"></p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118204114049.png" alt="image-20201118204114049"></p>
+<h3 id="rosrun-tf-view-frames：生成pdf文档，显示tf维护的系统的tf-tree"><a href="#rosrun-tf-view-frames：生成pdf文档，显示tf维护的系统的tf-tree" class="headerlink" title="rosrun tf view_frames：生成pdf文档，显示tf维护的系统的tf tree"></a><strong>rosrun tf view_frames：</strong>生成pdf文档，显示tf维护的系统的tf tree</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118204652180.png" alt="image-20201118204652180"></p>
+<h3 id="rosrun-tf-tf-echo-turtle1-turtle2：直接查询两坐标系的位置关系"><a href="#rosrun-tf-tf-echo-turtle1-turtle2：直接查询两坐标系的位置关系" class="headerlink" title="rosrun tf tf_echo turtle1 turtle2：直接查询两坐标系的位置关系"></a><strong>rosrun tf tf_echo turtle1 turtle2</strong>：直接查询两坐标系的位置关系</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118205551392.png" alt="image-20201118205551392"></p>
+<h3 id="rviz可视化坐标显示"><a href="#rviz可视化坐标显示" class="headerlink" title="rviz可视化坐标显示"></a>rviz可视化坐标显示</h3><p><strong>rosrun rviz rviz -d ‘rospack find turtle_tf’ /rviz/turtle_rviz.rviz 可视化显示坐标关系</strong></p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118210657089.png" alt="image-20201118210657089"></p>
+<h2 id="tf坐标系广播与监听的编程实现"><a href="#tf坐标系广播与监听的编程实现" class="headerlink" title="tf坐标系广播与监听的编程实现"></a>tf坐标系广播与监听的编程实现</h2><h3 id="创建功能包-1"><a href="#创建功能包-1" class="headerlink" title="创建功能包"></a>创建功能包</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118211255103.png" alt="image-20201118211255103"></p>
+<h3 id="代码编写tf广播器"><a href="#代码编写tf广播器" class="headerlink" title="代码编写tf广播器"></a>代码编写tf广播器</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118211540900.png" alt="image-20201118211540900"></p>
+<h3 id="代码编写tf监听器"><a href="#代码编写tf监听器" class="headerlink" title="代码编写tf监听器"></a>代码编写tf监听器</h3><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118212324860.png" alt="image-20201118212324860"></p>
+<h3 id="配置编译规则"><a href="#配置编译规则" class="headerlink" title="配置编译规则"></a>配置编译规则</h3><p>add_executable(turtle_tf_broadcaster src/turtle_tf_broadcaster.cpp)<br>target_link_libraries(turtle_tf_broadcaster ${catkin_LIBRARIES})</p>
+<p>add_executable(turtle_tf_listener src/turtle_tf_listener.cpp)<br>target_link_libraries(turtle_tf_listener ${catkin_LIBRARIES})</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118212910212.png" alt="image-20201118212910212"></p>
+<h3 id="编译并运行-3"><a href="#编译并运行-3" class="headerlink" title="编译并运行"></a>编译并运行</h3><p><strong>__name:=turtle1_tf_broadcaster：</strong>节点映射，以:=后的内容改变代码中节点名称，防止节点名称重复</p>
+<p>rosrun learning_tf turtle_tf_broadcaster __name:=turtle1_tf_broadcaster /turtle1</p>
+<p>rosrun learning_tf turtle_tf_broadcaster __name:=turtle2_tf_broadcaster /turtle2</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118213800802.png" alt="image-20201118213800802"></p>
+<h1 id="launch启动文件使用方法"><a href="#launch启动文件使用方法" class="headerlink" title="launch启动文件使用方法"></a>launch启动文件使用方法</h1><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118214204460.png" alt="image-20201118214204460"></p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p><strong>可选属性：</strong></p>
+<p>output：控制节点的日志信息是否要打印到当前终端<br>respawn：节点挂了是否需要重启<br>required：节点是否必须要启动<br>ns：命名空间，防止节点命名冲突<br>args：节点输入参数</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118214320579.png" alt="image-20201118214320579"></p>
+<h2 id="参数设置"><a href="#参数设置" class="headerlink" title="参数设置"></a>参数设置</h2><p>argument不能传递给 include 元素里包含的子launch文件使用。 argument 就像是一个局部变量，它不能被包含的launch文件所 “继承” 。解决这个问题的方法：在 include 元素中插入 arg 元素作为 include 元素的子类。</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118215132790.png" alt="image-20201118215132790"></p>
+<h2 id="重映射和嵌套"><a href="#重映射和嵌套" class="headerlink" title="重映射和嵌套"></a>重映射和嵌套</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118215240499.png" alt="image-20201118215240499"></p>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118215644032.png" alt="image-20201118215644032"></p>
+<p><strong>ubuntu使用右下角设置文件格式为MXML即可使launch文件高亮显示</strong></p>
+<p><strong>使用 roslaunch learning_launch(功能包) simple.launch(launch文件名)运行</strong></p>
+<h2 id="xacro文件"><a href="#xacro文件" class="headerlink" title="xacro文件"></a>xacro文件</h2><h3 id="xacro文件转urdf文件以及使用urdf-to-graphiz显示物理模型框架"><a href="#xacro文件转urdf文件以及使用urdf-to-graphiz显示物理模型框架" class="headerlink" title="xacro文件转urdf文件以及使用urdf_to_graphiz显示物理模型框架"></a>xacro文件转urdf文件以及使用urdf_to_graphiz显示物理模型框架</h3><p>安装：sudo apt-get install liburdfdom-tools</p>
+<p>rosrun xacro xacro turtlebot3_burger.urdf.xacro &gt; turtlebot3_burger.urdf –inorder</p>
+<p><strong>check_urdf</strong> turtlebot3_burger.urdf</p>
+<p><strong>urdf_to_graphiz</strong> turtlebot3_burger.urdf</p>
+<p>生成一张pdf文档：</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201120193657338.png" alt="image-20201120193657338"></p>
+<h1 id="常见可视化工具的使用"><a href="#常见可视化工具的使用" class="headerlink" title="常见可视化工具的使用"></a>常见可视化工具的使用</h1><h2 id="rqt"><a href="#rqt" class="headerlink" title="rqt"></a>rqt</h2><p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118220023521.png" alt="image-20201118220023521"></p>
+<h2 id="Rviz（显示）"><a href="#Rviz（显示）" class="headerlink" title="Rviz（显示）"></a>Rviz（显示）</h2><p>使用<strong>rosrun rviz rviz</strong>打开</p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118220337358.png" alt="image-20201118220337358"></p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118220354453.png" alt="image-20201118220354453"></p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118220444315.png" alt="image-20201118220444315"></p>
+<h2 id="Gazebo（仿真）"><a href="#Gazebo（仿真）" class="headerlink" title="Gazebo（仿真）"></a>Gazebo（仿真）</h2><p><strong>使用roslaunch gazebo_ros  ###运行</strong><br>elevator_world.launch      rubble_world.launch<br>empty_world.launch         shapes_world.launch<br>mud_world.launch           willowgarage_world.launch<br>range_world.launch     </p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118220703600.png" alt="image-20201118220703600"></p>
+<p><img src="ROS%E5%85%A5%E9%97%A8.assets/image-20201118220734743.png" alt="image-20201118220734743"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+      <div>
+            
+      <div style="text-align:center;color: #ccc;font-size:14px;">
+        ------ 本文结束 ------
+      </div>
+    
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ROS/" rel="tag"><i class="fa fa-tag"></i> ROS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/27/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/155106.gif"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Soverngity" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="njustcxp@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ROS%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">ROS核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%82%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%9D%E9%A2%98%E9%80%9A%E4%BF%A1"><span class="nav-number">1.2.</span> <span class="nav-text">话题通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1"><span class="nav-number">1.3.</span> <span class="nav-text">服务通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.5.</span> <span class="nav-text">文件系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ROS%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">ROS命令行基本操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ROS%E5%88%9B%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E5%92%8C%E5%8A%9F%E8%83%BD%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">ROS创建工作空间和功能包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83"><span class="nav-number">3.1.</span> <span class="nav-text">创建工作环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8A%9F%E8%83%BD%E5%8C%85"><span class="nav-number">3.2.</span> <span class="nav-text">创建功能包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E8%80%85%E3%80%81%E8%AE%A2%E9%98%85%E8%80%85%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">发布者、订阅者编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Clion%E8%BF%9B%E8%A1%8CROS%E5%BC%80%E5%8F%91"><span class="nav-number">4.1.</span> <span class="nav-text">使用Clion进行ROS开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E8%80%85Publisher%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.</span> <span class="nav-text">发布者Publisher编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="nav-number">4.2.1.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9CMakeLists-txt"><span class="nav-number">4.2.2.</span> <span class="nav-text">修改CMakeLists.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C%E5%8F%91%E5%B8%83%E8%80%85"><span class="nav-number">4.2.3.</span> <span class="nav-text">编译并运行发布者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python%E5%AE%9E%E7%8E%B0%E5%8F%91%E5%B8%83%E8%80%85"><span class="nav-number">4.2.4.</span> <span class="nav-text">python实现发布者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A2%E9%98%85%E8%80%85Subscribe%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.3.</span> <span class="nav-text">订阅者Subscribe编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99-1"><span class="nav-number">4.3.1.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9CMakeLists-txt-1"><span class="nav-number">4.3.2.</span> <span class="nav-text">修改CMakeLists.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="nav-number">4.3.3.</span> <span class="nav-text">编译并运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%9D%E9%A2%98%E6%B6%88%E6%81%AF%E7%9A%84%E5%AE%9A%E4%B9%89%E8%B7%9F%E4%BD%BF%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">话题消息的定义跟使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AF%9D%E9%A2%98%E6%B6%88%E6%81%AF"><span class="nav-number">4.4.1.</span> <span class="nav-text">自定义话题消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8F%91%E5%B8%83%E8%80%85%E4%BB%A3%E7%A0%81"><span class="nav-number">4.4.2.</span> <span class="nav-text">创建发布者代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%AE%A2%E9%98%85%E8%80%85%E4%BB%A3%E7%A0%81"><span class="nav-number">4.4.3.</span> <span class="nav-text">创建订阅者代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9CMakeLists-txt-2"><span class="nav-number">4.4.4.</span> <span class="nav-text">修改CMakeLists.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C%E5%8F%91%E5%B8%83%E8%80%85%E5%92%8C%E8%AE%A2%E9%98%85%E8%80%85"><span class="nav-number">4.4.5.</span> <span class="nav-text">编译并运行发布者和订阅者</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E3%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">客户端、服务器编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BC%96%E7%A8%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">客户端编程代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99-2"><span class="nav-number">5.1.1.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9CMakeLists-txt%EF%BC%8C%E9%85%8D%E7%BD%AE%E7%BC%96%E8%AF%91%E8%A7%84%E5%88%99"><span class="nav-number">5.1.2.</span> <span class="nav-text">修改CMakeLists.txt，配置编译规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C-1"><span class="nav-number">5.1.3.</span> <span class="nav-text">编译并运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%E4%BB%A3%E7%A0%81"><span class="nav-number">5.2.</span> <span class="nav-text">服务端编程代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99-3"><span class="nav-number">5.2.1.</span> <span class="nav-text">代码编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C-2"><span class="nav-number">5.2.2.</span> <span class="nav-text">编译并运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">5.3.</span> <span class="nav-text">服务数据的定义与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1%E6%95%B0%E6%8D%AE"><span class="nav-number">5.3.1.</span> <span class="nav-text">自定义服务数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">5.3.2.</span> <span class="nav-text">创建客户端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">5.3.3.</span> <span class="nav-text">创建服务端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9CMakeLists-txt-3"><span class="nav-number">5.3.4.</span> <span class="nav-text">修改CMakeLists.txt</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E7%BC%96%E7%A8%8B%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">参数的使用与编程方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">6.1.</span> <span class="nav-text">命令行使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">6.2.</span> <span class="nav-text">编程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9CMakeLists-txt%EF%BC%8C%E9%85%8D%E7%BD%AE%E7%BC%96%E8%AF%91%E8%A7%84%E5%88%99-1"><span class="nav-number">6.3.</span> <span class="nav-text">修改CMakeLists.txt，配置编译规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%EF%BC%88tf%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">坐标系管理系统（tf）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2"><span class="nav-number">7.1.</span> <span class="nav-text">坐标变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rosrun-tf-view-frames%EF%BC%9A%E7%94%9F%E6%88%90pdf%E6%96%87%E6%A1%A3%EF%BC%8C%E6%98%BE%E7%A4%BAtf%E7%BB%B4%E6%8A%A4%E7%9A%84%E7%B3%BB%E7%BB%9F%E7%9A%84tf-tree"><span class="nav-number">7.1.1.</span> <span class="nav-text">rosrun tf view_frames：生成pdf文档，显示tf维护的系统的tf tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rosrun-tf-tf-echo-turtle1-turtle2%EF%BC%9A%E7%9B%B4%E6%8E%A5%E6%9F%A5%E8%AF%A2%E4%B8%A4%E5%9D%90%E6%A0%87%E7%B3%BB%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%85%B3%E7%B3%BB"><span class="nav-number">7.1.2.</span> <span class="nav-text">rosrun tf tf_echo turtle1 turtle2：直接查询两坐标系的位置关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rviz%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9D%90%E6%A0%87%E6%98%BE%E7%A4%BA"><span class="nav-number">7.1.3.</span> <span class="nav-text">rviz可视化坐标显示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tf%E5%9D%90%E6%A0%87%E7%B3%BB%E5%B9%BF%E6%92%AD%E4%B8%8E%E7%9B%91%E5%90%AC%E7%9A%84%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">7.2.</span> <span class="nav-text">tf坐标系广播与监听的编程实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8A%9F%E8%83%BD%E5%8C%85-1"><span class="nav-number">7.2.1.</span> <span class="nav-text">创建功能包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99tf%E5%B9%BF%E6%92%AD%E5%99%A8"><span class="nav-number">7.2.2.</span> <span class="nav-text">代码编写tf广播器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99tf%E7%9B%91%E5%90%AC%E5%99%A8"><span class="nav-number">7.2.3.</span> <span class="nav-text">代码编写tf监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%BC%96%E8%AF%91%E8%A7%84%E5%88%99"><span class="nav-number">7.2.4.</span> <span class="nav-text">配置编译规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E8%BF%90%E8%A1%8C-3"><span class="nav-number">7.2.5.</span> <span class="nav-text">编译并运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#launch%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">8.</span> <span class="nav-text">launch启动文件使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">8.1.</span> <span class="nav-text">基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="nav-number">8.2.</span> <span class="nav-text">参数设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%98%A0%E5%B0%84%E5%92%8C%E5%B5%8C%E5%A5%97"><span class="nav-number">8.3.</span> <span class="nav-text">重映射和嵌套</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">8.4.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xacro%E6%96%87%E4%BB%B6"><span class="nav-number">8.5.</span> <span class="nav-text">xacro文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xacro%E6%96%87%E4%BB%B6%E8%BD%ACurdf%E6%96%87%E4%BB%B6%E4%BB%A5%E5%8F%8A%E4%BD%BF%E7%94%A8urdf-to-graphiz%E6%98%BE%E7%A4%BA%E7%89%A9%E7%90%86%E6%A8%A1%E5%9E%8B%E6%A1%86%E6%9E%B6"><span class="nav-number">8.5.1.</span> <span class="nav-text">xacro文件转urdf文件以及使用urdf_to_graphiz显示物理模型框架</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">9.</span> <span class="nav-text">常见可视化工具的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rqt"><span class="nav-number">9.1.</span> <span class="nav-text">rqt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rviz%EF%BC%88%E6%98%BE%E7%A4%BA%EF%BC%89"><span class="nav-number">9.2.</span> <span class="nav-text">Rviz（显示）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gazebo%EF%BC%88%E4%BB%BF%E7%9C%9F%EF%BC%89"><span class="nav-number">9.3.</span> <span class="nav-text">Gazebo（仿真）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chen XXX</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'jbW97fcJUoipFUUyQpjvntNW-gzGzoHsz',
+        appKey: '2YnFemJXpF5VLKBVvytdGND4',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
