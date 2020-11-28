@@ -1823,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #d6e994;
+  background: #ffff17;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3148,4 +3148,25 @@ img {
 }
 .post-toc ol {
   font-size: 13px;
+}
+h1 {
+  counter-increment: counter_h1;
+  counter-reset: counter_h2;
+}
+h1:before {
+  content: counter(counter_h1) "　";
+}
+h2 {
+  counter-increment: counter_h2;
+  counter-reset: counter_h3;
+}
+h2:before {
+  content: counter(counter_h1) "." counter(counter_h2) "　";
+}
+h3 {
+  counter-increment: counter_h3;
+  counter-reset: counter_h4;
+}
+h3:before {
+  content: counter(counter_h1) "." counter(counter_h2) "." counter(counter_h3) "　";
 }
