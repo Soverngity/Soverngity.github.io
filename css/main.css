@@ -1823,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #39ff49;
+  background: #216cf0;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2737,15 +2737,6 @@ pre .javascript .function {
   padding-left: 0;
   padding-right: 260px;
 }
-.header {
-  width: 95%;
-}
-.container .main-inner {
-  width: 95%;
-}
-.content-wrap {
-  width: calc(100% - 260px);
-}
 .site-brand-wrapper {
   position: relative;
 }
@@ -3128,6 +3119,12 @@ pre .javascript .function {
   .pagination {
     margin: 8px 0 0;
   }
+}
+body {
+  background-image: url("https://cdn.jsdelivr.net/gh/soverngity/image@main/index.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 body {
   cursor: url("https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/default.cur"), auto !important;
