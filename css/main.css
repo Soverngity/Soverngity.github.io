@@ -1823,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff4d0e;
+  background: #4dc8bd;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2992,7 +2992,7 @@ pre .javascript .function {
 }
 .post-block {
   padding: 40px;
-  background: #fff;
+  background: rgba(255,255,255,0.85);
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
   border-radius: initial;
 }
@@ -3130,11 +3130,10 @@ pre .javascript .function {
   }
 }
 body {
-  background-image: url("https://source.unsplash.com/random/1600x900?wallpapers");
+  background-image: url("https://cdn.jsdelivr.net/gh/soverngity/image@main/index.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: 50% 50%;
-  background-size: 100% 100%;
+  background-size: cover;
 }
 body {
   cursor: url("https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/default.cur"), auto !important;
