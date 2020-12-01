@@ -1,6 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cmake学习之set</title>
+    <url>/2020/12/01/cmake%E5%AD%A6%E4%B9%A0%E4%B9%8B-%20set/</url>
+    <content><![CDATA[<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p><code>set</code> 和 <code>unset</code> 为一对相反的指令，分别为设置变量以及取消设置变量。</p>
+<ol>
+<li><p>什么是变量？</p>
+<ul>
+<li>  变量就是用于保存值的存储单元。</li>
+</ul>
+</li>
+<li><p><code>set</code>　有哪几种?</p>
+<ul>
+<li><p><code>set</code> 有三种，分别为: 设置一般变量(Set Normal Variable)， 设置缓存变量(Set Cache Entry)，设置环境变量(Set Environment Variable)</p>
+  <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">// <span class="number">1</span>. 设置一般变量(<span class="keyword">Set</span> Normal Variable)</span><br><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... [PARENT_SCOPE])</span><br><span class="line"></span><br><span class="line">// <span class="number">2</span>. 设置缓存变量(<span class="keyword">Set</span> Cache Entry)</span><br><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... CACHE &lt;type&gt; &lt;docstring&gt; [FORCE])</span><br><span class="line"></span><br><span class="line">// <span class="number">3</span>. 设置环境变量(<span class="keyword">Set</span> Environment Variable)</span><br><span class="line"><span class="keyword">set</span>(ENV&#123;&lt;variable&gt;&#125; [&lt;value&gt;])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>变量的作用域</p>
+<ul>
+<li>  <strong>Function Scope:</strong> 在函数内部定义,仅仅在当前函数以及所调用的子函数内有效;</li>
+<li>  <strong>Directory Scope:</strong> 在当前目录的定义的变量,当调用子目录时候,子目录会复制一份父级目录内的变量到子目录中</li>
+<li>  <strong>Persistent Cache:</strong> 持久化的缓存,一般由<code>CACHE</code> 存储起来.</li>
+</ul>
+</li>
+<li><p>变量的搜索路径</p>
+<ol>
+<li> 在当前 <strong>Function Scope</strong> 调用内查找,找到后使用,未找到进行下一步;</li>
+<li> 在当前目录下面查找,找到使用,未找到下一步;</li>
+<li> 在 CACHE 中寻找,找到使用,未找到,则为空.</li>
+</ol>
+</li>
+</ol>
+<h1 id="设置一般变量-Normal-Variable"><a href="#设置一般变量-Normal-Variable" class="headerlink" title="设置一般变量(Normal Variable)"></a>设置一般变量(Normal Variable)</h1><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... [PARENT_SCOPE])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  将一个或者多个值 <code>&lt;value&gt;...</code> 赋值给变量 <code>&lt;variable&gt;</code>， 多个值之间以分号（；）分隔。</li>
+</ul>
+<h2 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h2><ol>
+<li>PARENT_SCOPE<ul>
+<li>  配置该选项后，表示该变量在父级作用域上有效, 在当前作用域上是无效的;</li>
+</ul>
+</li>
+</ol>
+<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><p>目录结构如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rs:cmake-set$ tree</span><br><span class="line">.</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── main.cpp</span><br><span class="line">└── subdir</span><br><span class="line">    └── CMakeLists.txt</span><br></pre></td></tr></table></figure>
+
+<p>顶层的　CMakeLists.txt</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(DEMO VERSION <span class="number">10.2</span>.<span class="number">1.3</span> LANGUAGES CXX C ASM )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(PNAME rsenjoyer)</span><br><span class="line"><span class="keyword">set</span>(PGRADE <span class="number">80</span> <span class="number">85</span> <span class="number">90</span> <span class="number">95</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;top name = $&#123;PNAME&#125;&quot;</span>)  </span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;top grade = $&#123;PGRADE&#125;&quot;</span>) </span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(subdir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;top after name = $&#123;PNAME&#125;&quot;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(DEMO main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>子目录的 CMakeLists.txt</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(PNAME jack)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;sub name = $&#123;PNAME&#125;&quot;</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(PNAME rose PARENT_SCOPE)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;sub name = $&#123;PNAME&#125;&quot;</span>) </span><br></pre></td></tr></table></figure>
+
+<h1 id="设置缓存变量-Set-Cache-Entry"><a href="#设置缓存变量-Set-Cache-Entry" class="headerlink" title="设置缓存变量(Set Cache Entry)"></a>设置缓存变量(Set Cache Entry)</h1><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... CACHE &lt;type&gt; &lt;docstring&gt; [FORCE])</span><br></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li>  设置变量并缓存到 CMakeCache.txt</li>
+<li>  默认不会覆盖已缓存(已存在于 CMakeCache.txt )的变量；</li>
+</ul>
+<h2 id="参数解析-1"><a href="#参数解析-1" class="headerlink" title="参数解析"></a>参数解析</h2><ol>
+<li><p>类型 type</p>
+<p> 类型 type 必须为以下的一种</p>
+<ul>
+<li>BOOL<ul>
+<li>  布尔值(ON/OFF)</li>
+</ul>
+</li>
+<li>FILEPATH<ul>
+<li>  文件路径</li>
+</ul>
+</li>
+<li>PATH<ul>
+<li>  目录路径</li>
+</ul>
+</li>
+<li>STRING<ul>
+<li>  字符串</li>
+</ul>
+</li>
+<li>INTERNAL<ul>
+<li>  单行文字</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p> 描述字符串 <code>&lt;docstring&gt;</code>: 单行文字,用于 CMAKE-GUI 的时提示用户</p>
+</li>
+<li><p> FORCE 用于是否强制更新缓存里面的值，配置后，每次都会强制更新　<code>CMakeCache.txt</code> 里面的值</p>
+</li>
+</ol>
+<h1 id="设置环境变量-Set-Environment-Variable"><a href="#设置环境变量-Set-Environment-Variable" class="headerlink" title="设置环境变量(Set Environment Variable)"></a>设置环境变量(Set Environment Variable)</h1><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(ENV&#123;&lt;variable&gt;&#125; [&lt;value&gt;])</span><br></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li>  设置环境变量 <code>&lt;variable&gt;</code>,值为 <code>&lt;value&gt;</code></li>
+<li>  如果 <code>&lt;value&gt;</code> 不存在或者为空字符串 表示清除该环境变量</li>
+</ul>
+<h1 id="环境变量与一般变量区别"><a href="#环境变量与一般变量区别" class="headerlink" title="环境变量与一般变量区别"></a>环境变量与一般变量区别</h1><p>参考: <a href="https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#cmake-language-variables">https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#cmake-language-variables</a></p>
+]]></content>
+      <categories>
+        <category>cmake</category>
+      </categories>
+      <tags>
+        <tag>cmake</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ROS入门</title>
     <url>/2020/11/28/ROS%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="ROS核心概念"><a href="#ROS核心概念" class="headerlink" title="ROS核心概念"></a>ROS核心概念</h1><p><strong>建议每次运行新程序之前都要运行roscore，因为ROS Master参数服务器存储的参数可能会冲突产生问题。</strong></p>
@@ -188,113 +295,6 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>cmake学习之set</title>
-    <url>/2020/12/01/cmake%E5%AD%A6%E4%B9%A0%E4%B9%8B-%20set/</url>
-    <content><![CDATA[<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p><code>set</code> 和 <code>unset</code> 为一对相反的指令，分别为设置变量以及取消设置变量。</p>
-<ol>
-<li><p>什么是变量？</p>
-<ul>
-<li>  变量就是用于保存值的存储单元。</li>
-</ul>
-</li>
-<li><p><code>set</code>　有哪几种?</p>
-<ul>
-<li><p><code>set</code> 有三种，分别为: 设置一般变量(Set Normal Variable)， 设置缓存变量(Set Cache Entry)，设置环境变量(Set Environment Variable)</p>
-  <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">// <span class="number">1</span>. 设置一般变量(<span class="keyword">Set</span> Normal Variable)</span><br><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... [PARENT_SCOPE])</span><br><span class="line"></span><br><span class="line">// <span class="number">2</span>. 设置缓存变量(<span class="keyword">Set</span> Cache Entry)</span><br><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... CACHE &lt;type&gt; &lt;docstring&gt; [FORCE])</span><br><span class="line"></span><br><span class="line">// <span class="number">3</span>. 设置环境变量(<span class="keyword">Set</span> Environment Variable)</span><br><span class="line"><span class="keyword">set</span>(ENV&#123;&lt;variable&gt;&#125; [&lt;value&gt;])</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>变量的作用域</p>
-<ul>
-<li>  <strong>Function Scope:</strong> 在函数内部定义,仅仅在当前函数以及所调用的子函数内有效;</li>
-<li>  <strong>Directory Scope:</strong> 在当前目录的定义的变量,当调用子目录时候,子目录会复制一份父级目录内的变量到子目录中</li>
-<li>  <strong>Persistent Cache:</strong> 持久化的缓存,一般由<code>CACHE</code> 存储起来.</li>
-</ul>
-</li>
-<li><p>变量的搜索路径</p>
-<ol>
-<li> 在当前 <strong>Function Scope</strong> 调用内查找,找到后使用,未找到进行下一步;</li>
-<li> 在当前目录下面查找,找到使用,未找到下一步;</li>
-<li> 在 CACHE 中寻找,找到使用,未找到,则为空.</li>
-</ol>
-</li>
-</ol>
-<h1 id="设置一般变量-Normal-Variable"><a href="#设置一般变量-Normal-Variable" class="headerlink" title="设置一般变量(Normal Variable)"></a>设置一般变量(Normal Variable)</h1><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... [PARENT_SCOPE])</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>  将一个或者多个值 <code>&lt;value&gt;...</code> 赋值给变量 <code>&lt;variable&gt;</code>， 多个值之间以分号（；）分隔。</li>
-</ul>
-<h2 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h2><ol>
-<li>PARENT_SCOPE<ul>
-<li>  配置该选项后，表示该变量在父级作用域上有效, 在当前作用域上是无效的;</li>
-</ul>
-</li>
-</ol>
-<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><p>目录结构如下:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rs:cmake-set$ tree</span><br><span class="line">.</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── main.cpp</span><br><span class="line">└── subdir</span><br><span class="line">    └── CMakeLists.txt</span><br></pre></td></tr></table></figure>
-
-<p>顶层的　CMakeLists.txt</p>
-<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(DEMO VERSION <span class="number">10.2</span>.<span class="number">1.3</span> LANGUAGES CXX C ASM )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(PNAME rsenjoyer)</span><br><span class="line"><span class="keyword">set</span>(PGRADE <span class="number">80</span> <span class="number">85</span> <span class="number">90</span> <span class="number">95</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;top name = $&#123;PNAME&#125;&quot;</span>)  </span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;top grade = $&#123;PGRADE&#125;&quot;</span>) </span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(subdir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;top after name = $&#123;PNAME&#125;&quot;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(DEMO main.cpp)</span><br></pre></td></tr></table></figure>
-
-<p>子目录的 CMakeLists.txt</p>
-<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(PNAME jack)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;sub name = $&#123;PNAME&#125;&quot;</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(PNAME rose PARENT_SCOPE)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;sub name = $&#123;PNAME&#125;&quot;</span>) </span><br></pre></td></tr></table></figure>
-
-<h1 id="设置缓存变量-Set-Cache-Entry"><a href="#设置缓存变量-Set-Cache-Entry" class="headerlink" title="设置缓存变量(Set Cache Entry)"></a>设置缓存变量(Set Cache Entry)</h1><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... CACHE &lt;type&gt; &lt;docstring&gt; [FORCE])</span><br></pre></td></tr></table></figure>
-
-<p><strong>作用</strong></p>
-<ul>
-<li>  设置变量并缓存到 CMakeCache.txt</li>
-<li>  默认不会覆盖已缓存(已存在于 CMakeCache.txt )的变量；</li>
-</ul>
-<h2 id="参数解析-1"><a href="#参数解析-1" class="headerlink" title="参数解析"></a>参数解析</h2><ol>
-<li><p>类型 type</p>
-<p> 类型 type 必须为以下的一种</p>
-<ul>
-<li>BOOL<ul>
-<li>  布尔值(ON/OFF)</li>
-</ul>
-</li>
-<li>FILEPATH<ul>
-<li>  文件路径</li>
-</ul>
-</li>
-<li>PATH<ul>
-<li>  目录路径</li>
-</ul>
-</li>
-<li>STRING<ul>
-<li>  字符串</li>
-</ul>
-</li>
-<li>INTERNAL<ul>
-<li>  单行文字</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p> 描述字符串 <code>&lt;docstring&gt;</code>: 单行文字,用于 CMAKE-GUI 的时提示用户</p>
-</li>
-<li><p> FORCE 用于是否强制更新缓存里面的值，配置后，每次都会强制更新　<code>CMakeCache.txt</code> 里面的值</p>
-</li>
-</ol>
-<h1 id="设置环境变量-Set-Environment-Variable"><a href="#设置环境变量-Set-Environment-Variable" class="headerlink" title="设置环境变量(Set Environment Variable)"></a>设置环境变量(Set Environment Variable)</h1><figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(ENV&#123;&lt;variable&gt;&#125; [&lt;value&gt;])</span><br></pre></td></tr></table></figure>
-
-<p><strong>作用</strong></p>
-<ul>
-<li>  设置环境变量 <code>&lt;variable&gt;</code>,值为 <code>&lt;value&gt;</code></li>
-<li>  如果 <code>&lt;value&gt;</code> 不存在或者为空字符串 表示清除该环境变量</li>
-</ul>
-<h1 id="环境变量与一般变量区别"><a href="#环境变量与一般变量区别" class="headerlink" title="环境变量与一般变量区别"></a>环境变量与一般变量区别</h1><p>参考: <a href="https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#cmake-language-variables">https://cmake.org/cmake/help/latest/manual/cmake-language.7.html#cmake-language-variables</a></p>
-]]></content>
-      <categories>
-        <category>cmake</category>
-      </categories>
-      <tags>
-        <tag>cmake</tag>
-        <tag>C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>用ROS跑别人bag数据集</title>
